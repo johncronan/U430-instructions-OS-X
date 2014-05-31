@@ -84,9 +84,10 @@ OS X 10.9.x installation on Lenovo U430
 
 	```
 	cd /Volumes/EFI/EFI/Boot
-	mv bootx64.efi bootx64orig.efi
+	mv bootx64.efi bootx64-orig.efi
 	cp /Volumes/EFI\ 1/EFI/BOOT/BOOTX64.efi bootx64.efi
 	cd ..
+	mv Microsoft/Boot/bootmgfw.efi Microsoft/Boot/bootmgfw-orig.efi
 	cp -R /Volumes/EFI\ 1/EFI/CLOVER .
 	rm -rf drivers64UEFI/Emu* drivers64UEFI/Part*
 	cp -R somewhere/RealtekRTL81xx.kext kexts/10.9/
