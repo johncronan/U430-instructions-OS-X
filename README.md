@@ -6,14 +6,17 @@ OS X 10.9.x installation on Lenovo U430
 1. Resize NTFS partition according to [resize instructions].
 1. Create a Linux live USB using `unetbootin` and, e.g., [Lubuntu 14.04]
 1. Boot into Linux and open LXterminal:
+
 	```
 	sudo cp -pR /sys/firmware/acpi/tables tables
 	sudo tar czf tables.tgz tables
 	```
+
 1. Copy the `tables.tgz` just created to `whatever/tables.tgz` on your existing Mac.
 1. On your current Mac: Make sure you have Xcode and its command line tools installed. Also, change your Xcode preferences in Locations -> Advanced -> Custom, Relative to Workspace. 
 1. Grab `MaciASL_ML.zip` from [MaciASL] into your `Downloads` directory.
 1. In Terminal:
+
 	```
 	cd whatever
 	curl http://www.tonymacx86.com/attachments/laptop-compatibility/75686d1386006623-would-my-dell-inspiron-17-7000-hackintosh-able-iasl.zip > iasl.zip
@@ -38,7 +41,9 @@ OS X 10.9.x installation on Lenovo U430
 	cp build/ssdt4.aml ../ssdt-4.aml
 	cp build/ssdt6.aml ../ssdt-6.aml
 	```
+
 1. Edit the config.plist file in `whatever` dir, and add the following to the SMBIOS key, right after `<dict>` line:
+
 	```
 	                <key>ProductName</key>
 	                <string>MacBookAir6,2</string>
@@ -47,6 +52,7 @@ OS X 10.9.x installation on Lenovo U430
 	                <key>SerialNumber</key>
 	                <string>ENTERyour17digits</string>
 	```
+
 1. Make sure that you have the `Install OS X Mavericks` app on your Mac, and that you've updated it to the latest version (by finding it in App Store and clicking `Download`) if it is old.
 1. Follow [Install OS X Mavericks using Clover] for `UEFI Boot Mode` through step 2. At the end of step 2 you should use the config.plist file in your `whatever` dir. You can skip the Ethernet kext (and NullCPUPowerManagement if you add the DSDT and SDST .aml files to `EFI/CLOVER/ACPI/patched/`).
 1. Now, on your U430: Go into the BIOS (shut down, then press the tiny button on the side) and disable `Secure Boot` under `Security`.
@@ -57,20 +63,25 @@ OS X 10.9.x installation on Lenovo U430
 1. Boot off the USB one last time and choose the partition that you installed Mavericks onto. Complete the setup (skip the network step).
 1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32.
 1. Download a [Clover snapshot] and copy it onto your new Mavericks install. Also copy over an [fdisk440 binary] and the [Ethernet kext]. Then in Terminal:
+
 	```
 	chmod 755 fdisk440
 	sudo cp fdisk440 /usr/bin/
 	cd cloverefiboot-code-????/CloverPackage/CloverV2/BootSectors
 	sudo fdisk440 -f boot0.bin -u -y /dev/rdisk0
 	```
+
 1. And, assuming that the EFI partition is `disk0s2`:
+
 	```
 	sudo dd if=/dev/rdisk0s2 count=1 bs=512 of=origbs
 	cp boot1f32alt newbs
 	dd if=origbs of=newbs skip=3 seek=3 bs=1 count=87 conv=notrunc
 	sudo dd if=newbs of=/dev/rdisk0s2 count=1 bs=512
 	```
+
 1. Mount the installer USB drive's EFI partition also with `diskutil mount /dev/disk1s1`. Then,
+
 	```
 	cd /Volumes/EFI/EFI/Boot
 	mv bootx64.efi bootx64orig.efi
