@@ -61,12 +61,17 @@ OS X 10.9.x installation on Lenovo U430
 1. When it reboots, you should again boot off the USB installer and choose `Install OS X Mavericks`. The installation will complete and the system restarts again.
 1. Boot off the USB one last time and choose the partition that you installed Mavericks onto. Complete the setup (skip the network step).
 1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32. Unmount.
-1. Copy your Clover package, [Clover Configurator], and [ssdtPRGen.sh] onto your new Mavericks install. Then in Terminal:
+1. Copy your Clover package, [Clover Configurator], onto your new Mavericks install. Also copy [ssdtPRGen.sh] and the `iasl` that you got earlier.
 1. Install Clover using the settings shown in Step 4 of the previously-linked installation guide for UEFI-capable systems.
-1. ...
+1. Run `Clover Configurator`, let it mount your EFI partition, then go to the SMBIOS tab, click the wand icon, select MacBookAir6,2 from the drop down. You can then save your config.plist.
 1. Then in Terminal:
 
 	```
+        cd files_loc
+	sudo cp iasl /usr/local/bin/
+	sudo ./ssdtPRGen.sh
+	(say 'n' twice)
+	mv ~/Desktop/ssdt.aml /Volumes/EFI/EFI/CLOVER/ACPI/patched/
 	sudo pmset -a hibernatemode 0
 	```
 
