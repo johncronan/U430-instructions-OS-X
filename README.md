@@ -67,7 +67,7 @@ OS X 10.9.x installation on Lenovo U430
 1. Then in Terminal:
 
 	```
-        cd files_loc
+	cd files_loc
 	sudo cp iasl /usr/local/bin/
 	sudo ./ssdtPRGen.sh
 	(say 'n' twice)
