@@ -49,11 +49,10 @@ OS X 10.9.x installation on Lenovo U430
 	                <string>MacBookAir6,2</string>
 	                <key>ProductFamily</key>
 	                <string>MacBookAir</string>
-	                <key>SerialNumber</key>
-	                <string>ENTERyour17digits</string>
 	```
 
 1. Make sure that you have the `Install OS X Mavericks` app on your Mac, and that you've updated it to the latest version (by finding it in App Store and clicking `Download`) if it is old.
+1. Prepare an updated Clover installer package using [Clover Grower]. To use Clover Grower you just clone that git repo and run `CloverGrower.command`. You need Clover r2678 or later for the installer to detect `/dev/disk0s2` as the ESP (needed later).
 1. Follow [Install OS X Mavericks using Clover] for `UEFI Boot Mode` through step 2. At the end of step 2 you should use the config.plist file in your `whatever` dir. You can skip the Ethernet kext (and NullCPUPowerManagement if you add the DSDT and SDST .aml files to `EFI/CLOVER/ACPI/patched/`).
 1. Now, on your U430: Go into the BIOS (shut down, then press the tiny button on the side) and disable `Secure Boot` under `Security`.
 1. Shut down again, plug in a USB mouse and keyboard, and boot from the installer USB (tiny button, `Boot Menu`, `EFI USB Device`), selecting the first option, `Install OS X Mavericks`.
@@ -61,39 +60,13 @@ OS X 10.9.x installation on Lenovo U430
 1. Close Disk Utility and `Install` onto your newly created partition. It may stall for a long while at the end; be patient.
 1. When it reboots, you should again boot off the USB installer and choose `Install OS X Mavericks`. The installation will complete and the system restarts again.
 1. Boot off the USB one last time and choose the partition that you installed Mavericks onto. Complete the setup (skip the network step).
-1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32.
-1. Download a [Clover snapshot] and copy it onto your new Mavericks install. Also copy over an [fdisk440 binary] and the [Ethernet kext]. Then in Terminal:
+1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32. Unmount.
+1. Copy your Clover package, [Clover Configurator], and [ssdtPRGen.sh] onto your new Mavericks install. Then in Terminal:
+1. Install Clover using the settings shown in Step 4 of the previously-linked installation guide for UEFI-capable systems.
+1. ...
+1. Then in Terminal:
 
 	```
-	chmod 755 fdisk440
-	sudo cp fdisk440 /usr/bin/
-	cd cloverefiboot-code-????/CloverPackage/CloverV2/BootSectors
-	sudo fdisk440 -f boot0.bin -u -y /dev/rdisk0
-	```
-
-1. And, assuming that the EFI partition is `disk0s2`:
-
-	```
-	sudo dd if=/dev/rdisk0s2 count=1 bs=512 of=origbs
-	cp boot1f32alt newbs
-	dd if=origbs of=newbs skip=3 seek=3 bs=1 count=87 conv=notrunc
-	sudo dd if=newbs of=/dev/rdisk0s2 count=1 bs=512
-	```
-
-1. Mount the installer USB drive's EFI partition also with `diskutil mount /dev/disk1s1`. Then,
-
-	```
-	cd /Volumes/EFI/EFI/Boot
-	mv bootx64.efi bootx64-orig.efi
-	cp /Volumes/EFI\ 1/EFI/BOOT/BOOTX64.efi bootx64.efi
-	cd ..
-	mv Microsoft/Boot/bootmgfw.efi Microsoft/Boot/bootmgfw-orig.efi
-	cp -R /Volumes/EFI\ 1/EFI/CLOVER .
-	rm -rf drivers64UEFI/Emu* drivers64UEFI/Part*
-	cp -R somewhere/RealtekRTL81xx.kext kexts/10.9/
-	cd
-	diskutil unmount /dev/disk1s1
-	diskutil unmount /dev/disk0s2
 	sudo pmset -a hibernatemode 0
 	```
 
@@ -103,6 +76,6 @@ OS X 10.9.x installation on Lenovo U430
 [MaciASL]:http://sourceforge.net/projects/maciasl/
 [Install OS X Mavericks using Clover]:http://www.tonymacx86.com/mavericks-desktop-guides/125632-how-install-os-x-mavericks-using-clover.html
 [create the partition]:http://apple.stackexchange.com/questions/63130/create-new-partition-in-unallocated-space-with-diskutil
-[Clover snapshot]:http://sourceforge.net/p/cloverefiboot/code/HEAD/tree/
-[fdisk440 binary]:https://github.com/philippetev/HP-ProBook-Installer/blob/master/Chameleon/usr/sbin/fdisk440
-[Ethernet kext]:http://www.tonymacx86.com/downloads.php?do=file&id=216
+[Clover Grower]:https://github.com/STLVNUB/CloverGrower
+[Clover Configurator]:http://www.osx86.net/files/file/49-clover-configurator/
+[ssdtPRGen.sh]:https://github.com/Piker-Alpha/ssdtPRGen.sh
