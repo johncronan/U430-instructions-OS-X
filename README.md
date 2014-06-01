@@ -1,6 +1,8 @@
 OS X 10.9.x installation on Lenovo U430
 =======================================
 
+Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist prevents replacement of Wifi/Bluetooth card (must use USB). A BIOS hack may be possible, if a complete copy of the current BIOS can be read or a BIOS update is released.
+
 1. In Windows, create a recovery drive (copying the recovery partition) and choose `delete the recovery partition` at the end. I needed a 16GB USB flash drive for this (which I just made a disk image of afterwards, and stored away).
 1. In Disk Management, delete the `New Volume` just created and the empty `LENOVO` primary partition.
 1. Resize NTFS partition according to [resize instructions].
@@ -75,6 +77,27 @@ OS X 10.9.x installation on Lenovo U430
 	sudo pmset -a hibernatemode 0
 	```
 
+1. Now reboot. Finally, we have some kexts to install. Refer to RehabMan's [kext list here]. For each of these (except FakeSMC, which we've already taken care of) do the following, either on the existing Mac you used previously or on the U430 after installing Xcode:
+
+	```
+	git clone address_from_github_page destdir
+	cd destdir
+	xcodebuild -alltargets
+	cd ..
+	```
+
+1. The targets will be placed inside each of these in the `build` directory. For `VoodooPS2Controller` you also need to install [the daemon] and copy the preference pane into `/System/Library/PreferencePanes`. And the procedure for the last, the AppleHDA patch, is different. Run in from your OS X on the laptop, and you will take the kext from the same directory after running:
+
+	```
+	./patch_hda.sh
+	```
+
+1. Use your preferred method to install all the kexts you built: GenericUSBXHCI, VoodooPS2Controller, ACPIBatteryManager and ACPIBacklight, RealtekRTL8111, CodecCommander and AppleHDA_ALC283.
+
+And that should just about do it. Note that you need to get a boot with kernel cache for the audio to work. Please send any feedback to <kyle@pbx.org> and I will update the instructions as needed, thanks!
+
+Many thanks, of course, to RehabMan for pioneering the above and for the various useful scripts and patches.
+
 [resize instructions]:http://ubuntuforums.org/showthread.php?t=2087466&p=12372055#post12372055
 [Lubuntu 14.04]:http://cdimage.ubuntu.com/lubuntu/releases/14.04/release/lubuntu-14.04-desktop-amd64.iso
 [MaciASL]:http://sourceforge.net/projects/maciasl/
@@ -83,3 +106,5 @@ OS X 10.9.x installation on Lenovo U430
 [Clover Grower]:https://github.com/STLVNUB/CloverGrower
 [Clover Configurator]:http://www.osx86.net/files/file/49-clover-configurator/
 [ssdtPRGen.sh]:https://github.com/Piker-Alpha/ssdtPRGen.sh
+[kext list here]:http://www.tonymacx86.com/laptop-compatibility/121632-lenovo-ideapad-u430-mavericks-19.html#post816396
+[the daemon]:https://github.com/RehabMan/OS-X-Voodoo-PS2-Controller/wiki/How-to-Install
