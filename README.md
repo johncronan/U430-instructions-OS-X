@@ -86,15 +86,15 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 	cd ..
 	```
 
-1. The targets will be placed inside each of these in the `build` directory. For `VoodooPS2Controller` you also need to install [the daemon] and copy the preference pane into `/System/Library/PreferencePanes`. And the procedure for the last, the AppleHDA patch, is different. Run in from your OS X on the laptop, and you will take the kext from the same directory after running:
+1. The targets will be placed inside each of these in the `build` directory. For `VoodooPS2Controller` you also need to install [the daemon] and copy the preference pane into `/System/Library/PreferencePanes`. And the procedure for the last, the AppleHDA patch, is different. Run it from your OS X on the laptop, and you will take the kext from the same directory after the command:
 
 	```
 	./patch_hda.sh
 	```
 
-1. Use your preferred method to install all the kexts you built: GenericUSBXHCI, VoodooPS2Controller, ACPIBatteryManager and ACPIBacklight, RealtekRTL8111, CodecCommander and AppleHDA_ALC283.
+1. And use your preferred method to install all the kexts you built: GenericUSBXHCI, VoodooPS2Controller, ACPIBatteryManager and ACPIBacklight, RealtekRTL8111, CodecCommander and AppleHDA_ALC283.
 
-And that should just about do it. Note that you need to get a boot with kernel cache for the audio to work. Please send any feedback to <kyle@pbx.org> and I will update the instructions as needed, thanks!
+That should complete your installation! Note that you need to get a boot with kernel cache for the audio to work. Please send any feedback to <kyle@pbx.org> and I will update the instructions as needed, thanks!
 
 Many thanks, of course, to RehabMan for pioneering the above and for the various useful scripts and patches.
 
