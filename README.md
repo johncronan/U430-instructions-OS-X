@@ -65,6 +65,15 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32. Unmount.
 1. Copy your Clover package and [Clover Configurator] onto your new Mavericks install. Also copy [ssdtPRGen.sh] and the `iasl` that you got earlier.
 1. Install Clover using the settings shown in the previously-linked installation guide, in Step 4 under `UEFI-capable systems`.
+1. Now plug in your installer USB drive so we can copy over some files (`disk1s1` should correspond to the EFI partition on the installer):
+
+	```
+	diskutil mount /dev/disk1s1
+	cd /Volumes/EFI\ 1/EFI
+	cp EFI/CLOVER/config.plist /Volumes/EFI/EFI/CLOVER/
+	cp EFI/CLOVER/ACPI/patched/*.aml /Volumes/EFI/EFI/CLOVER/ACPI/patched/
+	```
+
 1. Run `Clover Configurator`, let it mount your EFI partition, then go to the `SMBIOS` tab, click the wand icon, select `MacBookAir6,2` from the drop down. You can then save your config.plist.
 1. Then in Terminal:
 
