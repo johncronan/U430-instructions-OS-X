@@ -62,7 +62,7 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 1. Close Disk Utility and `Install` onto your newly created partition. It may stall for a long while at the end; be patient.
 1. When it reboots, you should again boot off the USB installer and choose `Install OS X Mavericks`. The installation will complete and the system restarts again.
 1. Boot off the USB one last time and choose the partition that you installed Mavericks onto. Complete the setup (skip the network step).
-1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32. Unmount.
+1. Mount your system EFI partition (`diskutil mount /dev/disk0s2`) and rename it in Finder to `EFI`. It will already be FAT32.
 1. Copy your Clover package and [Clover Configurator] onto your new Mavericks install. Also copy [ssdtPRGen.sh] and the `iasl` that you got earlier.
 1. Install Clover using the settings shown in the previously-linked installation guide, in Step 4 under `UEFI-capable systems`.
 1. Now plug in your installer USB drive so we can copy over some files (`disk1s1` should correspond to the EFI partition on the installer):
