@@ -55,7 +55,7 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 
 1. Make sure that you have the `Install OS X Mavericks` app on your Mac, and that you've updated it to the latest version (by finding it in App Store and clicking `Download`) if it is old.
 1. Prepare an updated Clover installer package using [Clover Grower]. To use Clover Grower you just clone that git repo and run `CloverGrower.command`. You need Clover r2678 or later for the installer to detect `/dev/disk0s2` as the ESP (needed later).
-1. Follow [Install OS X Mavericks using Clover] for `UEFI Boot Mode` through step 2. At the end of step 2 you should use the config.plist file in your `whatever` dir. You can skip the Ethernet kext (and NullCPUPowerManagement if you add the DSDT and SDST .aml files to `EFI/CLOVER/ACPI/patched/`).
+1. Follow [Install OS X Mavericks using Clover] for `UEFI Boot Mode` through step 2.  At the end of step 2 you should use the config.plist file in your `whatever` dir.  You can skip the Ethernet and NullCPUPowerManagement kexts. Do copy the DSDT and the two SDST .aml files as suggested, to `EFI/CLOVER/ACPI/patched/` (you could skip this, but note that later on we assume these files are located on the installer's ESP).
 1. Now, on your U430: Go into the BIOS (shut down, then press the tiny button on the side) and disable `Secure Boot` under `Security`.
 1. Shut down again, plug in a USB mouse and keyboard, and boot from the installer USB (tiny button, `Boot Menu`, `EFI USB Device`), selecting the first option, `Install OS X Mavericks`.
 1. Go into `Disk Utility` and select your hard drive. On the `Partition` tab, click the `+` button and name your new partition with format "Mac OS Extended (Journaled)." Click `Apply`. (Note: if Disk Utility gets stuck, then you will have to first [create the partition] using `gpt add ...` in the Terminal, then format it with Disk Utility.)
@@ -86,7 +86,7 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 	sudo pmset -a hibernatemode 0
 	```
 
-1. Now reboot. Finally, we have some kexts to install. Refer to RehabMan's [kext list here]. For each of these (except FakeSMC, which we've already taken care of) do the following, either on the existing Mac you used previously or on the U430 after installing Xcode:
+1. Now reboot. Finally, we have some kexts to install. Refer to RehabMan's [kext list here].  We've taken care of FakeSMC already. And see the next step for info about the AppleHDA patch. For the others,  follow the link in the `Downloads` section of each README, or build from source as follows:
 
 	```
 	git clone address_from_github_page destdir
@@ -95,7 +95,7 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 	cd ..
 	```
 
-1. The targets will be placed inside each of these in the `build` directory. For `VoodooPS2Controller` you also need to install [the daemon] and copy the preference pane into `/System/Library/PreferencePanes`. And the procedure for the last, the AppleHDA patch, is different. Run it from your OS X on the laptop, and you will take the kext from the same directory after the command:
+1. The targets will be in a directory called `Release`, or placed inside each of the gits, in the `build` directory, if you built from source. For `VoodooPS2Controller` you also need to install [the daemon] and you may copy the preference pane into `/System/Library/PreferencePanes`.  As for the AppleHDA patch, the procedure is a little different. Do the `git clone`, and on the U430 you will take the kext from the same directory after the command:
 
 	```
 	./patch_hda.sh
