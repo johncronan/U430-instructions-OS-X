@@ -1,7 +1,7 @@
 OS X 10.9.x installation on Lenovo U430
 =======================================
 
-Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist prevents replacement of Wifi/Bluetooth card (must use USB). A BIOS hack may be possible, if a complete copy of the current BIOS can be read or a BIOS update is released.
+Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist prevents replacement of Wifi/Bluetooth card (must use USB). A BIOS hack is possible, but so far it requires physically replacing the chip on the mainboard, which is tricky. 3. Headphone port has distorted audio. VoodooHDA is another option, and apparently it can be made to work well.
 
 1. In Windows, create a recovery drive (copying the recovery partition) and choose `delete the recovery partition` at the end. I needed a 16GB USB flash drive for this (which I just made a disk image of afterwards, and stored away).
 1. In Disk Management, delete the `New Volume` just created and the empty `LENOVO` primary partition.
@@ -31,6 +31,7 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 	sed -e 's/macosx10.7/macosx10.8/' -i \~ MaciASL.xcodeproj/project.pbxproj
 	xcodebuild -alltargets
 	sudo cp build/Release/patchmatic /usr/local/bin/
+	cd ..
 	git clone https://github.com/RehabMan/Laptop-DSDT-Patch.git laptop.git
 	git clone https://github.com/RehabMan/Lenovo-U430-Touch-DSDT-Patch.git u430.git
 	tar zxf tables.tgz
@@ -102,6 +103,8 @@ Known issues: 1. SD card reader not currently supported. 2. BIOS whitelist preve
 	```
 
 1. And use your preferred method to install all the kexts you built: GenericUSBXHCI, VoodooPS2Controller, ACPIBatteryManager and ACPIBacklight, RealtekRTL8111, CodecCommander and AppleHDA_ALC283.
+
+Update for 10.10 Yosemite: the same process should work, however starting with Yosemite you need to add `kext-dev-mode=1` to the kernel boot arguments in config.plist.
 
 That should complete your installation! Note that you need to get a boot with kernel cache for the audio to work. Please send any feedback to <kyle@pbx.org> and I will update the instructions as needed, thanks!
 
