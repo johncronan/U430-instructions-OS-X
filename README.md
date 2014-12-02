@@ -8,7 +8,7 @@ Note: Refer to the new [mini guide]. These instructions are still here in case t
 1. In Windows, create a recovery drive (copying the recovery partition) and choose `delete the recovery partition` at the end. I needed a 16GB USB flash drive for this (which I just made a disk image of afterwards, and stored away).
 1. In Disk Management, delete the `New Volume` just created and the empty `LENOVO` primary partition.
 1. Resize NTFS partition according to [resize instructions].
-1. Create a Linux live USB using `unetbootin` and, e.g., [Lubuntu 14.04]
+1. (Note: the following three steps are now optional. If you skip them then you should also skip the first two lines refering to `tables.tgz` below.) Create a Linux live USB using `unetbootin` and, e.g., [Lubuntu 14.04]
 1. Boot into Linux and open LXterminal:
 
 	```
